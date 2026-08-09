@@ -1,0 +1,17 @@
+# Frontend
+Frontend/node_modules/
+Frontend/dist/
+Frontend/build/
+Frontend/.env
+
+# Backend
+Backend/node_modules/
+Backend/.env
+
+# Common
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+coverage/
