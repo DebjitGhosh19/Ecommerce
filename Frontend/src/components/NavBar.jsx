@@ -5,7 +5,7 @@ const NavBar = () => {
   const [menu, setMenu] = useState(false)
   return (
     <div className=' cursor-pointer flex justify-between items-center py-5 font-medium'>
-      <img src={assets.logo} alt="logo"  className='w-20 sm:w-36 '/>
+     <Link to="/"> <img src={assets.logo} alt="logo"  className='w-20 sm:w-36 '/></Link>
       <div className='hidden sm:flex  justify-center text-sm text-gray-700 '>
             <ul className='flex gap-2 '>
                <NavLink to='/' className='flex flex-col items-center  gap-1 '>
