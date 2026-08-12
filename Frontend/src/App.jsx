@@ -10,6 +10,7 @@ import PlaceOrder from './Pages/PlaceOrder'
 import Product from './Pages/Product'
 import Orders from './Pages/Orders'
 import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 const App = () => {
   return (
     <div className="px-4 sm:px-[5vw] md:px[7vw] lg:px[9vw]">
@@ -26,6 +27,7 @@ const App = () => {
      <Route path="/collection" element={<Collection/>} />
 
      </Routes>
+     <Footer/>
     </div>
   );
 };
