@@ -9,65 +9,65 @@ const Collection = () => {
   const [filter, setFilter] = useState([]);
   const [categories, setCategories] = useState([]);
   const [type, setType] = useState([]);
-  const [priceFilter, setPriceFilter] = useState("Relevant")
+  const [priceFilter, setPriceFilter] = useState("Relevant");
 
   //categories
   const categoriesHandelar = (e) => {
-   if (categories.includes(e.target.value)) {
-  setCategories(
-    categories.filter((i) => i !== e.target.value)
-  );
-} else {
-  setCategories((prev) => [...prev, e.target.value]);
-}
+    if (categories.includes(e.target.value)) {
+      setCategories((prev) => prev.filter((item) => item !== value));
+    } else {
+      setCategories((prev) => [...prev, e.target.value]);
+    }
   };
   // typeHandelar
   const typeHandelar = (e) => {
     if (type.includes(e.target.value)) {
-  setType((prev) =>
-    prev.filter((i) => i !== e.target.value)
-  );
-} else {
-  setType((prev) => [
-    ...prev,
-    e.target.value,
-  ]);
-}
-  };
-//Flter by price
-const priceHandelar=()=>{
-   let productCopy=products.slice()
-  if ("Relevant"===priceFilter) {
-    setFilter(productCopy)
-  } 
-  else if("High"===priceFilter){
-    setFilter(productCopy)
-  }
-  else if("Low"===priceFilter){
-setFilter(productCopy)
-  }
-}
-        
-    let filterProducts=()=>{
- let productCopy=products.slice()
-if (categories.length>0) {
-  productCopy=productCopy.filter((p)=>categories.includes(p.category))
-}
-if (type.length>0) {
-    productCopy=productCopy.filter((p)=>type.includes(p.subCategory)) 
-}
-setFilter(productCopy)
+      setType((prev) => prev.filter((i) => i !== e.target.value));
+    } else {
+      setType((prev) => [...prev, e.target.value]);
     }
+  };
+  //Flter by price
+  const priceHandelar = () => {
+    let productCopy = products.slice();
 
-  useEffect(() => {
-   
-  filterProducts()
-  
-  
-  }, [categories, type])
+    if ("Relevant" === priceFilter) {
+      filterProducts();
+    } else if ("High" === priceFilter) {
+      setFilter(productCopy.sort((a, b) => b.price - a.price));
+    } else if ("Low" === priceFilter) {
+      // setFilter(productCopy)
+      setFilter(productCopy.sort((a, b) => a.price - b.price));
+    }
+  };
 
-  
 
+useEffect(() => {
+  let productCopy = [...products];
+
+  // Category Filter
+  if (categories.length > 0) {
+    productCopy = productCopy.filter((item) =>
+      categories.includes(item.category)
+    );
+  }
+
+  // Type Filter
+  if (type.length > 0) {
+    productCopy = productCopy.filter((item) =>
+      type.includes(item.subCategory)
+    );
+  }
+
+  // Price Sort
+  if (priceFilter === "High") {
+    productCopy.sort((a, b) => b.price - a.price);
+  } else if (priceFilter === "Low") {
+    productCopy.sort((a, b) => a.price - b.price);
+  }
+
+  setFilter(productCopy);
+}, [products, categories, type, priceFilter]);
   return (
     <div>
       <hr className="text-gray-400" />
@@ -104,7 +104,7 @@ setFilter(productCopy)
                 </div>
                 <div className="flex gap-2">
                   <input
-                  className=" cursor-pointer "
+                    className=" cursor-pointer "
                     id="women"
                     type="checkbox"
                     value="Women"
@@ -117,7 +117,7 @@ setFilter(productCopy)
 
                 <div className="flex gap-2">
                   <input
-                  className=" cursor-pointer "
+                    className=" cursor-pointer "
                     id="kids"
                     type="checkbox"
                     value="Kids"
@@ -132,36 +132,37 @@ setFilter(productCopy)
 
             <div className={`border p-2 mt-4 pl-5 text-gray-600`}>
               <h3 className="uppercase  mb-2">Type</h3>
-             <div className="flex flex-col gap-2">
-  <label className="flex gap-2 cursor-pointer">
-    <input
-    className=" cursor-pointer "
-      type="checkbox"
-      value="Topwear"
-      onChange={typeHandelar}
-    />
-    Topwear
-  </label>
+              <div className="flex flex-col gap-2">
+                <label className="flex gap-2 cursor-pointer">
+                  <input
+                    className=" cursor-pointer "
+                    type="checkbox"
+                    value="Topwear"
+                    onChange={typeHandelar}
+                  />
+                  Topwear
+                </label>
 
-  <label className="flex gap-2 cursor-pointer">
-    <input className=" cursor-pointer "
-      type="checkbox"
-      value="Bottomwear"
-      onChange={typeHandelar}
-    />
-    Bottomwear
-  </label>
+                <label className="flex gap-2 cursor-pointer">
+                  <input
+                    className=" cursor-pointer "
+                    type="checkbox"
+                    value="Bottomwear"
+                    onChange={typeHandelar}
+                  />
+                  Bottomwear
+                </label>
 
-  <label className="flex gap-2 cursor-pointer">
-    <input
-    className=" cursor-pointer "
-      type="checkbox"
-      value="Winterwear"
-      onChange={typeHandelar}
-    />
-    Winterwear
-  </label>
-</div>
+                <label className="flex gap-2 cursor-pointer">
+                  <input
+                    className=" cursor-pointer "
+                    type="checkbox"
+                    value="Winterwear"
+                    onChange={typeHandelar}
+                  />
+                  Winterwear
+                </label>
+              </div>
             </div>
           </div>
         </div>
@@ -172,7 +173,12 @@ setFilter(productCopy)
               <h3 className="uppercase  text-2xl">All Collections </h3>
               <hr className="w-8 sm:w-12 " />
             </div>
-            <select name="" id="" className="border p-2">
+            <select
+              name=""
+              id=""
+              className="border p-2"
+              onChange={(e) => setPriceFilter(e.target.value)}
+            >
               <option value="Relevant">Sort by: Relevant</option>
               <option value="High">Sort by: High to Low</option>
               <option value="Low">Sort by: Low to High</option>
