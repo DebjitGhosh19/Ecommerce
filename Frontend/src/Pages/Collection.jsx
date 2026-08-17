@@ -70,7 +70,7 @@ useEffect(() => {
 }, [products, categories, type, priceFilter]);
   return (
     <div>
-      <hr className="text-gray-400" />
+      <hr className="text-gray-400 " />
       <div className="flex  flex-col sm:flex-row gap-1 sm:gap-10 pt-10  ">
         <div className="flex gap-4 flex-col w-full sm:w-[21%]">
           <div
