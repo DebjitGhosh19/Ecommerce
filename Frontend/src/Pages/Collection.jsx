@@ -4,7 +4,7 @@ import ProductItems from "../components/ProductItems";
 import { assets } from "../assets/frontend_assets/assets.js";
 
 const Collection = () => {
-  const { products } = useContext(ShopContext);
+  const { products,search,showSearch,setSearch,setShowSearch } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -44,6 +44,10 @@ const Collection = () => {
 
 useEffect(() => {
   let productCopy = [...products];
+//Search Filter
+if (showSearch) {
+  productCopy=productCopy.filter((item)=>item.name.toLowerCase().includes(search.toLowerCase())  )
+}
 
   // Category Filter
   if (categories.length > 0) {
@@ -67,7 +71,7 @@ useEffect(() => {
   }
 
   setFilter(productCopy);
-}, [products, categories, type, priceFilter]);
+}, [products, categories, type, priceFilter,search]);
   return (
     <div>
       <hr className="text-gray-400 " />
