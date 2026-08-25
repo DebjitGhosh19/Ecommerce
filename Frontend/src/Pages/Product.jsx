@@ -6,12 +6,12 @@ import RelatedProducts from "../components/RelatedProducts";
 
 const Product = () => {
   const { productId } = useParams();
-  const { products, currency } = useContext(ShopContext);
+  const { products, currency,addToCart } = useContext(ShopContext);
   const [productData, setproductData] = useState(false);
   const [image, setImage] = useState("");
-  const [size, setSize] = useState([]);
+  const [size, setSize] = useState();
 
-  console.log(size);
+  // console.log(size);
 
   const fetchProduct = async () => {
     products.map((item) => {
@@ -22,7 +22,7 @@ const Product = () => {
       }
     });
   };
-  const filterProduct = async () => {};
+ 
   useEffect(() => {
     fetchProduct();
   }, [productId, products]);
@@ -78,7 +78,7 @@ const Product = () => {
               ))}
             </div>
           </div>
-          <button className="bg-black text-sm active:bg-gray-700 w-40 mt-6  text-white   p-4 cursor-pointer">
+          <button onClick={()=>addToCart(productData._id,size)} className="bg-black text-sm active:bg-gray-700 w-40 mt-6  text-white   p-4 cursor-pointer">
             ADD TO CART
           </button>
           <hr className="mt-8  text-gray-200 sm:w-4/5" />

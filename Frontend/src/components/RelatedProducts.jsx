@@ -3,7 +3,7 @@ import { ShopContext } from '../context/ShopContext';
 import {Link} from 'react-router-dom'
 import ProductItems from './ProductItems';
 const RelatedProducts = ({category,subCategory}) => {
-    console.log(category,subCategory);
+    // console.log(category,subCategory);
    const { products,currency} =useContext(ShopContext)
    const [related,setRelated] = useState([])
 

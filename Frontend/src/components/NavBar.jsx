@@ -4,7 +4,11 @@ import {assets} from '../assets/frontend_assets/assets.js'
 import { ShopContext } from '../context/ShopContext.jsx'
 const NavBar = () => {
   const [menu, setMenu] = useState(false)
-    const { search,showSearch,setSearch,setShowSearch} =useContext(ShopContext)
+    const { search,
+    showSearch,
+    setSearch,
+    setShowSearch,
+  getCartCount} =useContext(ShopContext)
   return (
     <div className=' cursor-pointer flex justify-between items-center py-5 font-medium'>
      <Link to="/"> <img src={assets.logo} alt="logo"  className='w-20 sm:w-36 '/></Link>
@@ -41,7 +45,7 @@ const NavBar = () => {
         </div>
           <Link to='/cart' className='relative ' >
             <img src={assets.cart_icon} alt="cartIcon" className='w-5  ' />
-            <span className='absolute bg-black text-white right-[-5px] bottom-[-5px] rounded-full w-4 text-center leading-4 text-[8px] '>10</span>
+            <span className='absolute bg-black text-white right-[-5px] bottom-[-5px] rounded-full w-4 text-center leading-4 text-[8px] '>{getCartCount()}</span>
           </Link>
            <img onClick={()=>setMenu(!menu)} src={assets.menu_icon} className='w-6  sm:hidden ' alt="" />
         
