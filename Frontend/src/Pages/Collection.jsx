@@ -4,7 +4,8 @@ import ProductItems from "../components/ProductItems";
 import { assets } from "../assets/frontend_assets/assets.js";
 
 const Collection = () => {
-  const { products,search,showSearch,setSearch,setShowSearch } = useContext(ShopContext);
+  const { products, search, showSearch, setSearch, setShowSearch } =
+    useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(false);
   const [filter, setFilter] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -14,12 +15,12 @@ const Collection = () => {
   //categories
   const categoriesHandelar = (e) => {
     if (categories.includes(e.target.value)) {
-      setCategories((prev) => prev.filter((item) => item !== value));
+      setCategories((prev) => prev.filter((item) => item !== e.target.value));
     } else {
       setCategories((prev) => [...prev, e.target.value]);
     }
   };
-  // typeHandelar
+  // Subcategories
   const typeHandelar = (e) => {
     if (type.includes(e.target.value)) {
       setType((prev) => prev.filter((i) => i !== e.target.value));
@@ -27,51 +28,40 @@ const Collection = () => {
       setType((prev) => [...prev, e.target.value]);
     }
   };
-  //Flter by price
-  const priceHandelar = () => {
-    let productCopy = products.slice();
+  
 
-    if ("Relevant" === priceFilter) {
-      filterProducts();
-    } else if ("High" === priceFilter) {
-      setFilter(productCopy.sort((a, b) => b.price - a.price));
-    } else if ("Low" === priceFilter) {
-      // setFilter(productCopy)
-      setFilter(productCopy.sort((a, b) => a.price - b.price));
+  useEffect(() => {
+    let productCopy = [...products];
+    //Search Filter
+    if (showSearch) {
+      productCopy = productCopy.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase()),
+      );
     }
-  };
 
+    // Category Filter
+    if (categories.length > 0) {
+      productCopy = productCopy.filter((item) =>
+        categories.includes(item.category),
+      );
+    }
 
-useEffect(() => {
-  let productCopy = [...products];
-//Search Filter
-if (showSearch) {
-  productCopy=productCopy.filter((item)=>item.name.toLowerCase().includes(search.toLowerCase())  )
-}
+    // Type Filter
+    if (type.length > 0) {
+      productCopy = productCopy.filter((item) =>
+        type.includes(item.subCategory),
+      );
+    }
 
-  // Category Filter
-  if (categories.length > 0) {
-    productCopy = productCopy.filter((item) =>
-      categories.includes(item.category)
-    );
-  }
+    // Price Sort
+    if (priceFilter === "High") {
+      productCopy.sort((a, b) => b.price - a.price);
+    } else if (priceFilter === "Low") {
+      productCopy.sort((a, b) => a.price - b.price);
+    }
 
-  // Type Filter
-  if (type.length > 0) {
-    productCopy = productCopy.filter((item) =>
-      type.includes(item.subCategory)
-    );
-  }
-
-  // Price Sort
-  if (priceFilter === "High") {
-    productCopy.sort((a, b) => b.price - a.price);
-  } else if (priceFilter === "Low") {
-    productCopy.sort((a, b) => a.price - b.price);
-  }
-
-  setFilter(productCopy);
-}, [products, categories, type, priceFilter,search]);
+    setFilter(productCopy);
+  }, [products, categories, type, priceFilter, search]);
   return (
     <div>
       <hr className="text-gray-400 " />
