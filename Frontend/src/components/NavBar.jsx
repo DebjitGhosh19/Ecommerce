@@ -43,7 +43,7 @@ const NavBar = () => {
           onClick={() => setShowSearch(true)}
         />
         <div className="relative group ">
-          <img src={assets.profile_icon} className="w-5" alt="" />
+        <Link to="/login">  <img src={assets.profile_icon} className="w-5" alt="" /></Link>
           <div className=" absolute hidden group-hover:flex flex-col w-36  bg-slate-100 text-gray-600 p-2 right-0 rounded ">
             <p className="border p-4 m-1 cursor-pointer hover:text-green-600">
               My Profile

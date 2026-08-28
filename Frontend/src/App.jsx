@@ -13,6 +13,7 @@ import NavBar from "./components/NavBar";
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { Toaster } from "react-hot-toast";
+import Signup from "./Pages/Signup";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
      <Route path="/about" element={<About/>} />
      <Route path="/contact" element={<Contact/>} />
      <Route path="/login" element={<Login/>} />
+      <Route path="/signup" element={<Signup/>} />
      <Route path="/orders" element={<Orders/>} />
      <Route path="/place-order" element={<PlaceOrder/>} />
      <Route path="/product/:productId" element={<Product/>} />
