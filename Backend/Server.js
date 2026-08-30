@@ -2,7 +2,8 @@ import express from 'express';
 import connectDB from './config/db.js';
 import dotenv from 'dotenv';
 import cloudinaryConfig from './config/CLOUDINARY.js';
-import Userrouter from './Routes/User.routes.js';
+import UserRouter from './Routes/User.routes.js';
+import ProductRouter from './Routes/Product.routes.js';
 
 dotenv.config(); // Load environment variables from .env file
 
@@ -19,7 +20,9 @@ app.use(express.urlencoded({ extended: true }));
 
 
 //User routes
-app.use('/api/users', Userrouter);
+app.use('/api/users', UserRouter);
+//Product routes
+app.use('/api/products', ProductRouter);
 
 // Start the server
 app.listen(PORT, () => {
