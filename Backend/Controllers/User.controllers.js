@@ -131,42 +131,23 @@ export const adminLogin = async (req, res) => {
       });
     }
 
-    const normalizedEmail = email.trim().toLowerCase();
+    if (email === process.env.AdminEmail && password === process.env.AdminPassword) {
+      const token = jwt.sign(
+       email+password,
+        process.env.JWT_SECRET,
+      );
 
-    const admin = await User.findOne({ email: normalizedEmail });
-
-    if (!admin) {
-      return res.status(404).json({
-        success: false,
-        message: "Admin not found.",
+      return res.status(200).json({
+        success: true,
+        message: "Admin logged in successfully.",
+        token,
       });
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, admin.password);
-
-    if (!isPasswordValid) {
+    } else {
       return res.status(401).json({
         success: false,
         message: "Invalid email or password.",
       });
     }
-
-    const token = jwt.sign(
-      { id: admin._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "7d" }
-    );
-
-    return res.status(200).json({
-      success: true,
-      message: "Admin logged in successfully.",
-        token,
-        admin: {
-            id: admin._id,
-            userName: admin.userName,
-            email: admin.email,
-        },
-    });
   }
     catch (error) {
     console.error("Admin login error:", error);

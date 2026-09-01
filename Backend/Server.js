@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import cloudinaryConfig from './config/CLOUDINARY.js';
 import UserRouter from './Routes/User.routes.js';
 import ProductRouter from './Routes/Product.routes.js';
-
+import cors from 'cors';
 dotenv.config(); // Load environment variables from .env file
 
 const app = express();
@@ -17,6 +17,7 @@ cloudinaryConfig()
 // Built-in middleware to parse incoming JSON payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors()); // Enable CORS for all routes
 
 
 //User routes

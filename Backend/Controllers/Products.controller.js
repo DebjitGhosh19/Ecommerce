@@ -1,4 +1,5 @@
 import Product from "../Models/ProductModel.js";
+import mongoose from 'mongoose';
 import { v2 as cloudinary } from 'cloudinary';
 
 
@@ -30,7 +31,7 @@ let imagesUrl =await Promise.all(images.map(async (image) => {
   return result.secure_url;
 }));
 
-console.log(imagesUrl)
+
     if (!name || !description || !price || !category || !subCategory || !sizes) {
       return res.status(400).json({
         success: false,
@@ -51,7 +52,7 @@ console.log(imagesUrl)
       bestseller: bestseller || false,
       date: Date.now(),
     });
-console.log(product)
+
     await product.save();
 
     return res.status(201).json({
@@ -91,7 +92,7 @@ export const getAllProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
-
+console.log(id)
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         success: false,
@@ -100,6 +101,7 @@ export const getProductById = async (req, res) => {
     }
 
     const product = await Product.findById(id);
+    console.log(product)
 
     if (!product) {
       return res.status(404).json({
@@ -121,43 +123,6 @@ export const getProductById = async (req, res) => {
   }
 };
 
-// Update product
-export const updateProduct = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Invalid product id',
-      });
-    }
-
-    const updatedProduct = await Product.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
-    if (!updatedProduct) {
-      return res.status(404).json({
-        success: false,
-        message: 'Product not found',
-      });
-    }
-
-    return res.status(200).json({
-      success: true,
-      message: 'Product updated successfully',
-      product: updatedProduct,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      success: false,
-      message: 'Failed to update product',
-      error: error.message,
-    });
-  }
-};
 
 // Delete product
 export const deleteProduct = async (req, res) => {
@@ -183,7 +148,6 @@ export const deleteProduct = async (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Product deleted successfully',
-      product: deletedProduct,
     });
   } catch (error) {
     return res.status(500).json({
