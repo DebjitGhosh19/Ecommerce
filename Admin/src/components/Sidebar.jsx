@@ -2,7 +2,7 @@ import { NavLink } from 'react-router-dom'
 
 const Sidebar = () => {
   return (
-    <aside className="fixed left-0 top-13 z-20 flex h-screen w-[64px] flex-col items-center justify-start gap-3 bg-linear-to-b from-slate-900 to-slate-800 p-2 text-white shadow-[2px_0_14px_rgba(0,0,0,0.15)] sm:sticky sm:top-0 sm:h-screen sm:w-[18%] sm:min-w-[180px] sm:max-w-[220px] sm:justify-start sm:gap-6 sm:p-4 lg:w-[18%]">
+    <aside className="fixed left-0 top-13 z-20 flex h-screen w-[1/10] flex-col items-center justify-start gap-3 bg-linear-to-b from-slate-900 to-slate-800 p-2 text-white shadow-[2px_0_14px_rgba(0,0,0,0.15)] sm:sticky sm:top-0 sm:h-screen sm:w-[18%] sm:min-w-[180px] sm:max-w-[220px] sm:justify-start sm:gap-6 sm:p-4 lg:w-[18%]">
       <nav className="flex w-full flex-col items-center justify-start gap-2 sm:items-stretch">
         <NavLink
           to="/add"
@@ -14,7 +14,7 @@ const Sidebar = () => {
             }`
           }
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/15 text-base">＋</span>
+          <span className="flex h-5 w-5 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-lg bg-white/15 text-base">＋</span>
           <span className="hidden truncate text-[10px] whitespace-nowrap sm:inline sm:text-sm">Add Item</span>
         </NavLink>
 
@@ -28,7 +28,7 @@ const Sidebar = () => {
             }`
           }
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/15 text-base">▣</span>
+          <span className="flex h-5 w-5 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-lg bg-white/15 text-base">▣</span>
           <span className="hidden truncate text-[10px] whitespace-nowrap sm:inline sm:text-sm">List Items</span>
         </NavLink>
 
@@ -42,7 +42,7 @@ const Sidebar = () => {
             }`
           }
         >
-          <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/15 text-base">🛒</span>
+          <span className="flex h-5 w-5 sm:h-7 sm:w-7 shrink-0 items-center justify-center rounded-lg bg-white/15 text-base">🛒</span>
           <span className="hidden truncate text-[10px] whitespace-nowrap sm:inline sm:text-sm">Orders</span>
         </NavLink>
       </nav>

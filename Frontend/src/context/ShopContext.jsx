@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-import { products } from "../assets/frontend_assets/assets.js";
+// import { products } from "../assets/frontend_assets/assets.js";
+import axios from "axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 export const ShopContext = createContext();
@@ -10,7 +11,8 @@ const ShopContextProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
-
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+  const [products, setProducts] = useState([]);
    const navigate = useNavigate();
   const addToCart =async (itemId, size) => {
     if (!size) {
@@ -81,6 +83,21 @@ const getCartAmount =  () => {
   return totalAmount;
 };
 
+useEffect(() => {
+  const fetchProducts = async () => {
+    try {
+      const response = await axios.get(`${BACKEND_URL}/api/products/getAllProducts`);
+      const data = response.data.products;
+      console.log("Fetched products:", data);
+      setProducts(data);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  fetchProducts();
+}, []);
+
   const value = {
     products,
     currency,
@@ -95,7 +112,8 @@ const getCartAmount =  () => {
     getCartCount,
     updateQuantity,
     getCartAmount,
-    navigate
+    navigate,
+    BACKEND_URL
   };
 
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;

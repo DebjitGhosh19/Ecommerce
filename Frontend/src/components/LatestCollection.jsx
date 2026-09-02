@@ -8,7 +8,7 @@ const LatestCollection = () => {
 
   useEffect(() => {
   setLatestProduct(  products.slice(0,10))
-  }, []);
+  }, [products]);
 
   return (
     <div className="my-10">
@@ -27,9 +27,9 @@ const LatestCollection = () => {
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6 pt-10">
         {
           
-          latestProduct.map((item,index)=>(
-            <ProductItems key={index} price={item.price} id={item._id} image={item.image[0]} name={item.name}/>
-          ))
+       latestProduct.length>0?   latestProduct.map((item,index)=>(
+            <ProductItems key={index} price={item.price} id={item._id} images={item.images[0]} name={item.name}/>
+          )): <p className="text-center text-gray-500">No latest products available.</p>
         }
       </div>
     </div>

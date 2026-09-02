@@ -21,14 +21,15 @@ const App = () => {
       
       <Navbar setIsLoggedIn={setIsLoggedIn} />
       <hr />
-      <div className="flex  " >
-        <Sidebar/>
-        {console.log(isLoggedIn)}
-        <Routes className="w-full h-full">
+      <div className="flex flex-row gap-2 " >
+     <div className='w-1/10'>   <Sidebar /></div>
+    <div className="w-9/10" >
+        <Routes >
           <Route path="/orders" element={<Orders/>}/>
           <Route path="/list" element={<List/>}/>
           <Route path="/add" element={<Add/>}/>
         </Routes>
+    </div>
       </div>
     </div>)
     : (<Login setIsLoggedIn={setIsLoggedIn}/>)

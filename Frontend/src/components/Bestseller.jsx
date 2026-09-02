@@ -8,9 +8,9 @@ const Bestseller = () => {
    useEffect(() => {
    const productCopy=products.filter((p)=>p.bestseller===true)
    setBestSeller(productCopy.slice(0,5))
+   console.log("Best Seller Products:", productCopy);
    
-   
-   }, [])
+   }, [products])
    
   return (
     <div className='my-10'>
@@ -27,9 +27,9 @@ const Bestseller = () => {
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6 pt-10">
             {
-                      bestSeller.map((item,index)=>(
-            <ProductItems key={index} price={item.price} id={item._id} image={item.image[0]} name={item.name}/>
-          ))
+                      bestSeller.length>0? bestSeller.map((item,index)=>(
+            <ProductItems key={index} price={item.price} id={item._id} images={item.images[0]} name={item.name}/>
+          )): <p className="text-center text-gray-500">No bestseller products available.</p>
             }
         </div>
     </div>

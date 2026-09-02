@@ -47,7 +47,7 @@ const Cart = () => {
               <div>
                 <img
                   className="w-20"
-                src={productData.image[0]}
+                src={productData.images[0]}
                   alt=""
                 />
               </div>

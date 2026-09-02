@@ -17,7 +17,7 @@ const Orders = () => {
         className='my-4 flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm transition-shadow hover:shadow-md sm:flex-row sm:items-center'
       >
         <img
-          src={product.image}
+          src={product.images}
           alt={product.title}
           className='h-20 w-20 shrink-0 rounded-lg object-cover'
         />

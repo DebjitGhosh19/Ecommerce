@@ -8,7 +8,7 @@ const Product = () => {
   const { productId } = useParams();
   const { products, currency,addToCart } = useContext(ShopContext);
   const [productData, setproductData] = useState(false);
-  const [image, setImage] = useState("");
+  const [images, setimages] = useState("");
   const [size, setSize] = useState();
 
   // console.log(size);
@@ -17,7 +17,7 @@ const Product = () => {
     products.map((item) => {
       if (item._id == productId) {
         setproductData(item);
-        setImage(item.image[0]);
+        setimages(item.images[0]);
         return null;
       }
     });
@@ -31,12 +31,12 @@ const Product = () => {
     <div className="border-t-2  pt-5 transition-opacity ease-in duration-500  opacity-100 ">
       {/* Product Data */}
       <div className="flex gap-12 flex-col sm:flex-row">
-        {/* product images */}
+        {/* product imagess */}
         <div className="flex-1 flex flex-col-reverse gap-3 sm:flex-row">
           <div className="flex sm:flex-col overflow-x-auto sm:overflow-y-scroll justify-between sm:justify-normal sm:w-[18.7%] w-full ">
-            {productData.image.map((item, index) => (
+            {productData.images.map((item, index) => (
               <img
-                onClick={() => setImage(item)}
+                onClick={() => setimages(item)}
                 key={index}
                 src={item}
                 className="w-[24%] sm:w-full sm:mb-3  cursor-pointer "
@@ -45,7 +45,7 @@ const Product = () => {
             ))}
           </div>
           <div className="w-full sm:w-[80%]">
-            <img className="w-full h-auto" src={image} alt="" />
+            <img className="w-full h-auto" src={images} alt="" />
           </div>
         </div>
         {/* Product description */}
@@ -111,7 +111,7 @@ const Product = () => {
           </p>
           <p>
             E-commerce websites typically display products or services along
-            with detailed descriptions, images, prices, and any available
+            with detailed descriptions, imagess, prices, and any available
             variations (e.g., sizes, colors). Each product usually has its own
             dedicated page with relevant information.
           </p>

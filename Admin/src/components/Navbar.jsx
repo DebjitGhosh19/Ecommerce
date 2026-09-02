@@ -1,7 +1,7 @@
 import { assets } from "../assets/admin_assets/assets.js";
 const Navbar = ({ setIsLoggedIn }) => {
   return (
-    <div className="flex items-center py-2 px-[4%] justify-between bg-linear-to-b from-slate-900 to-slate-800">
+    <div className="flex items-center py-2 px-[4%] justify-between bg-linear-to-b from-slate-900 to-slate-800 sticky top-0 z-50">
       <img src={assets.logo} alt="Logo" className="w-[max(10%,80px)] bg-amber-50 p-2 rounded-xl" />
       <button
         onClick={() => {
