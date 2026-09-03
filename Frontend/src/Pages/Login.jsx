@@ -1,16 +1,40 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
-
+import { useContext } from 'react';
+import { ShopContext } from '../context/ShopContext';
+import axios from 'axios';
+import toast from 'react-hot-toast';
 const Login = () => {
-  const [userName, setUserName] = useState('')
+  const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const { setToken,BACKEND_URL,navigate ,token, setCartItems} = useContext(ShopContext);
   // onSubmitHandelar
   const onSubmitHandelar = (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log(userName, password);
-  }
+    const loginUser = async () => {
+      try {
+        const response = await axios.post(`http://localhost:5000/api/users/login`, { email, password });
+        if (response.data.success) {
+          const token = response.data.token;
+          localStorage.setItem('token', token);
+          setToken(token);
+          toast.success('Login successful');
+        } else {
+          toast.error('Login failed: ' + response.data.message);
+        }
+      } catch (error) {
+        toast.error(error.response.data.message || 'An error occurred while logging in.');
+      }
+    };
 
+    loginUser();
+  };
+useEffect(() => {
+    if (token) {
+      // Redirect to the home page or any other page after successful login
+      navigate('/');
+    }
+  }, [token, navigate]);
 
   return (
     <div>
@@ -21,11 +45,11 @@ const Login = () => {
       <div className='mt-10 flex items-center justify-center'>
         <form className='flex flex-col gap-4 sm:gap-6'>
           <input
-            type='text'
-            placeholder='Username'
+            type='email'
+            placeholder='Email'
             className='w-75 border p-2 sm:w-100 sm:p-3' required
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <input
             type='password'

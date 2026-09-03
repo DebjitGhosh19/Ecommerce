@@ -5,6 +5,8 @@ import cloudinaryConfig from './config/CLOUDINARY.js';
 import UserRouter from './Routes/User.routes.js';
 import ProductRouter from './Routes/Product.routes.js';
 import cors from 'cors';
+import Cartrouter from './Routes/Cart.routes.js';
+import OrderRouter from './Routes/Order.routes.js';
 dotenv.config(); // Load environment variables from .env file
 
 const app = express();
@@ -24,6 +26,10 @@ app.use(cors()); // Enable CORS for all routes
 app.use('/api/users', UserRouter);
 //Product routes
 app.use('/api/products', ProductRouter);
+//Cart routes
+app.use('/api/carts',Cartrouter);
+//Order routes
+app.use('/api/orders', OrderRouter);
 
 // Start the server
 app.listen(PORT, () => {

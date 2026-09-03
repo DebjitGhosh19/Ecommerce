@@ -5,6 +5,7 @@ import User from "../Models/UserModel.js";
 export const signupUser = async (req, res) => {
   try {
     const { userName,  email, password } = req.body;
+    console.log("Signup request body:", req.body);
     const normalizedUserName = (userName).trim();
 
     if (!normalizedUserName || !email || !password) {

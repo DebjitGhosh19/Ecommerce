@@ -1,11 +1,89 @@
 import CartTotal from '../components/CartTotal'
-import { assets } from '../assets/frontend_assets/assets'
+import { assets} from '../assets/frontend_assets/assets'
 import { useContext, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
+import axios from 'axios'
 
 const PlaceOrder = () => {
-  const [method, setMethod] = useState("cod")
-  const { navigate } = useContext(ShopContext)
+  const [method, setMethod] = useState("COD")
+  const [deliveryInfo, setDeliveryInfo] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    city: '',
+    state: '',
+    pincode: '',
+    country: '',
+    address: '',
+  })
+  const  { delivery_fee,cartItems,
+    setCartItems,
+    addToCart,
+    getCartCount,
+    updateQuantity,
+    getCartAmount,
+    navigate,
+    BACKEND_URL,
+    token,
+    setToken,products } = useContext(ShopContext)
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target
+    setDeliveryInfo((currentInfo) => ({ ...currentInfo, [name]: value }))
+  }
+
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    try {
+      let orderItems=[];
+      for(const items in cartItems){
+        for(const item in cartItems[items]){
+          if(cartItems[items][item]>0){
+            const itemInfo=structuredClone(products.find(product=>product._id==items))
+          if(itemInfo){
+            itemInfo.size=item;
+            itemInfo.quantity=cartItems[items][item]
+            orderItems.push(itemInfo)
+          }
+          }
+        }
+      }
+      
+      let orderData={
+        address:deliveryInfo,
+        items:orderItems,
+        amount:getCartAmount()+delivery_fee
+      }
+
+      switch (method) {
+        case 'COD':
+          const response=await axios.post(BACKEND_URL+'/api/orders/place',orderData,{headers:{token}})
+          if (response.data.success) {
+            setCartItems({})
+            navigate('/orders')
+          }
+          else{
+            toast.error(response.data.message)
+          }
+          break;
+          // case 'razorpay':
+          //  const response=await axios.post(BACKEND_URL+'/api/orders/razorpay',orderData,)
+          // break;
+          //  case 'stripe':
+          //  const response=await axios.post(BACKEND_URL+'/api/orders/stripe')
+          // break;
+        default:
+          break;
+      }
+      
+      
+    } catch (error) {
+      
+    }
+    
+  }
+
   return (
     <main className="mx-auto min-h-screen max-w-7xl bg-gray-50 px-4 pb-16 sm:px-6 lg:px-8">
       <div className="flex items-end gap-3 py-10 sm:gap-4">
@@ -19,7 +97,7 @@ const PlaceOrder = () => {
       </div>
 
       <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-        <form className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-8">
+        <form id="delivery-form" onChange={handleInputChange} onSubmit={handleSubmit} className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-8">
           <div className="mb-7 flex items-center justify-between border-b border-gray-100 pb-5">
             <div>
               <h2 className="text-lg font-semibold text-gray-900">Shipping details</h2>
@@ -82,11 +160,11 @@ const PlaceOrder = () => {
               <img src={assets.razorpay_logo} alt="Razorpay" className="h-6 w-auto" />
               <span className={`h-4 w-4 rounded-full border-4 ${method === 'razorpay' ? 'border-green-500 bg-green-500' : 'border-gray-400'}`} aria-label={method === 'razorpay' ? 'Selected' : 'Not selected'} />
             </button>
-            <button type="button" onClick={() => setMethod('cod')} className={`flex w-full items-center justify-between rounded-xl border p-3 text-left text-sm font-medium uppercase tracking-wide text-gray-700 transition hover:border-black hover:bg-gray-50 ${method === 'cod' ? 'border-2 border-green-500 bg-green-50' : 'border-gray-300'}`}>
+            <button type="button" onClick={() => setMethod('COD')} className={`flex w-full items-center justify-between rounded-xl border p-3 text-left text-sm font-medium uppercase tracking-wide text-gray-700 transition hover:border-black hover:bg-gray-50 ${method === 'COD' ? 'border-2 border-green-500 bg-green-50' : 'border-gray-300'}`}>
               Cash on delivery
-              <span className={`h-4 w-4 rounded-full border-4 ${method === 'cod' ? 'border-green-500 bg-green-500' : 'border-gray-400'}`} aria-label={method === 'cod' ? 'Selected' : 'Not selected'} />
+              <span className={`h-4 w-4 rounded-full border-4 ${method === 'COD' ? 'border-green-500 bg-green-500' : 'border-gray-400'}`} aria-label={method === 'COD' ? 'Selected' : 'Not selected'} />
             </button>
-            <button onClick={()=>navigate("/orders")} type="submit" className="mt-5 w-full rounded-xl bg-black px-5 py-3.5 text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-gray-800">
+            <button form="delivery-form" type="submit" className="mt-5 w-full rounded-xl bg-black px-5 py-3.5 text-sm font-semibold uppercase tracking-wider text-white transition hover:bg-gray-800">
               Place order
             </button>
           </div>

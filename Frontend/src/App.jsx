@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Route,Routes} from 'react-router-dom'
 import Home from './Pages/Home'
 import About from './Pages/About'
@@ -14,15 +14,17 @@ import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { Toaster } from "react-hot-toast";
 import Signup from "./Pages/Signup";
+// import { ShopContext } from "./context/ShopContext";
 
 const App = () => {
+      
   return (
     <div className="px-4 sm:px-[5vw] md:px[7vw] lg:px[9vw]">
        <Toaster />
       <NavBar/>
       <SearchBar/>
      <Routes>
-     <Route path="/" element={<Home/>} />
+     <Route path="/" element={  <Home/> } />
      <Route path="/about" element={<About/>} />
      <Route path="/contact" element={<Contact/>} />
      <Route path="/login" element={<Login/>} />

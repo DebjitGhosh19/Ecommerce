@@ -4,7 +4,7 @@ import { assets } from "../assets/frontend_assets/assets.js";
 import { ShopContext } from "../context/ShopContext.jsx";
 const NavBar = () => {
   const [menu, setMenu] = useState(false);
-  const { search, showSearch, setSearch, setShowSearch, getCartCount } =
+  const { search, showSearch, setSearch, setShowSearch, getCartCount,setToken,token, setCartItems,navigate } =
     useContext(ShopContext);
   return (
     <div className=" cursor-pointer flex justify-between items-center py-5 font-medium">
@@ -42,20 +42,33 @@ const NavBar = () => {
           alt="searchIcon"
           onClick={() => setShowSearch(true)}
         />
-        <div className="relative group ">
-        <Link to="/login">  <img src={assets.profile_icon} className="w-5" alt="" /></Link>
-          <div className=" absolute hidden group-hover:flex flex-col w-36  bg-slate-100 text-gray-600 p-2 right-0 rounded ">
+
+        {/* Dreopdown Menu */}
+
+
+   <div className="relative group ">
+       <img onClick={()=>token?null:navigate('/login')} src={assets.profile_icon} className="w-5" alt="" />
+          {
+            token && <div className=" absolute hidden group-hover:flex flex-col w-36  bg-slate-100 text-gray-600 p-2 right-0 rounded ">
             <p className="border p-4 m-1 cursor-pointer hover:text-green-600">
               My Profile
             </p>
-            <p className="border p-4 m-1 cursor-pointer hover:text-green-600">
+            <p onClick={()=>navigate("/orders")} className="border p-4 m-1 cursor-pointer hover:text-green-600">
               Orders
             </p>
-            <p className="border p-4 m-1 cursor-pointer hover:text-green-600">
+            <p onClick={() => {
+               
+              localStorage.removeItem('token');
+              setToken(null);
+              navigate('/login');
+              setCartItems({});
+            }} className="border p-4 m-1 cursor-pointer hover:text-green-600">
               Logout
             </p>
           </div>
+          }
         </div>
+
         <Link to="/cart" className="relative ">
           <img src={assets.cart_icon} alt="cartIcon" className="w-5  " />
           <span className="absolute bg-black text-white right-[-5px] bottom-[-5px] rounded-full w-4 text-center leading-4 text-[8px] ">
