@@ -8,7 +8,8 @@ import cors from 'cors';
 import Cartrouter from './Routes/Cart.routes.js';
 import OrderRouter from './Routes/Order.routes.js';
 dotenv.config(); // Load environment variables from .env file
-
+import dns from 'dns'
+dns.setServers(['1.1.1.1',"8.8.8.8"])
 const app = express();
 const PORT = process.env.PORT || 3000;
 // connectDb
