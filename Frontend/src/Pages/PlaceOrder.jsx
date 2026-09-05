@@ -3,6 +3,7 @@ import { assets} from '../assets/frontend_assets/assets'
 import { useContext, useState } from 'react'
 import { ShopContext } from '../context/ShopContext'
 import axios from 'axios'
+import toast from 'react-hot-toast'
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("COD")
@@ -27,11 +28,46 @@ const PlaceOrder = () => {
     BACKEND_URL,
     token,
     setToken,products } = useContext(ShopContext)
+    const initPay=(order)=>{
+      const options={
+         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+    amount: order.amount,
+    currency: order.currency,
+    name: "Order Payment",
+    description: "Order Payment",
+    order_id: order.id,
+    receipt:order.receipt,
+    handler: async function (response) {
+      // await verifyPayment(response);
+      // console.log(response);
+      try {
+        const {data}=await axios.post(BACKEND_URL+'/api/orders/verifyRazorpay',response,{headers:{token}})
+    if (data.success) {
+      navigate("/orders")
+      setCartItems({})
+    }
+      } catch (error) {
+        console.log(error)
+        toast.error(error.message)
+      }
+      
+    },
+  
+
+    // theme: {
+    //   color: "#000000",
+    // },
+      }
+       const razorpay = new window.Razorpay(options);
+       razorpay.open();
+    }
+    
 
   const handleInputChange = (event) => {
     const { name, value } = event.target
     setDeliveryInfo((currentInfo) => ({ ...currentInfo, [name]: value }))
   }
+
 
   const handleSubmit = async (event) => {
     event.preventDefault()
@@ -67,12 +103,25 @@ const PlaceOrder = () => {
             toast.error(response.data.message)
           }
           break;
-          // case 'razorpay':
-          //  const response=await axios.post(BACKEND_URL+'/api/orders/razorpay',orderData,)
-          // break;
-          //  case 'stripe':
-          //  const response=await axios.post(BACKEND_URL+'/api/orders/stripe')
-          // break;
+          case 'razorpay':
+           const responseRazorpay=await axios.post(BACKEND_URL+'/api/orders/razorpay',orderData,{headers:{token}})
+          if (responseRazorpay.data.success) {
+            console.log(responseRazorpay.data.razorpayOrder);
+            
+             initPay(responseRazorpay.data.razorpayOrder);
+            
+          }
+           break;
+           case 'stripe':
+           const responseStripe=await axios.post(BACKEND_URL+'/api/orders/stripe',orderData,{headers:{token,origin:window.location.origin}} )
+           if (responseStripe.data.success) {
+            const {session_url}=responseStripe.data
+            window.location.replace(session_url)
+           }
+           else{
+            toast.error("Stripe Error")
+           }
+          break;
         default:
           break;
       }

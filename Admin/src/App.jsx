@@ -25,7 +25,7 @@ const App = () => {
      <div className='w-1/10'>   <Sidebar /></div>
     <div className="w-9/10" >
         <Routes >
-          <Route path="/orders" element={<Orders/>}/>
+          <Route path="/orders" element={<Orders token={isLoggedIn} />} />
           <Route path="/list" element={<List/>}/>
           <Route path="/add" element={<Add/>}/>
         </Routes>

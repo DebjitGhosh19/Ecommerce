@@ -14,6 +14,7 @@ import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import { Toaster } from "react-hot-toast";
 import Signup from "./Pages/Signup";
+import Verify from "./Pages/Verify";
 // import { ShopContext } from "./context/ShopContext";
 
 const App = () => {
@@ -34,6 +35,7 @@ const App = () => {
      <Route path="/product/:productId" element={<Product/>} />
      <Route path="/cart" element={<Cart/>} />
      <Route path="/collection" element={<Collection/>} />
+     <Route path="/verify" element={<Verify />} />
 
      </Routes>
      <Footer/>
