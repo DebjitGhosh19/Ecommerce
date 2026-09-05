@@ -20,7 +20,13 @@ cloudinaryConfig()
 // Built-in middleware to parse incoming JSON payloads
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors()); // Enable CORS for all routes
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    'https://ecom-two-cyan-25.vercel.app',
+    'https://ecomm-dusky-eight.vercel.app'
+  ]
+})); // Enable CORS for all routes
 
 
 //User routes
